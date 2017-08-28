@@ -79,7 +79,7 @@ func main() {
 
 	switch *flagCmd {
 	case "add":
-		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{ipset.Member{Elem: *flagMember}}}
+		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{{Elem: *flagMember}}}
 		if *flagInteractive {
 			err = handle.Add(set)
 			if err != nil {
@@ -95,7 +95,7 @@ func main() {
 		}
 
 	case "del":
-		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{ipset.Member{Elem: *flagMember}}}
+		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{{Elem: *flagMember}}}
 		if *flagInteractive {
 			err = handle.Delete(set)
 			if err != nil {
@@ -125,7 +125,7 @@ func main() {
 			panic(err)
 		}
 	case "test":
-		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{ipset.Member{Elem: *flagMember}}}
+		set := &ipset.Set{Name: *flagSet1, Members: []ipset.Member{{Elem: *flagMember}}}
 		out, err := ipset.Test(set)
 		fmt.Printf("CombinedOutput: %s\n", out)
 		if err != nil {

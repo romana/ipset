@@ -30,7 +30,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and member for test",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}}},
 			}},
 			rType:  RenderTest,
 			expect: "test super foo",
@@ -38,7 +38,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set  for test",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet},
+				{Name: "super", Type: SetHashNet},
 			}},
 			rType:  RenderTest,
 			expect: "test super",
@@ -46,7 +46,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}, {Elem: "bar"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:net \nadd super foo\nadd super bar\n",
@@ -54,8 +54,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with counters",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Counters: new(string)},
-					Members: []Member{Member{Elem: "foo", Packets: 42, Bytes: 1024}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Counters: new(string)},
+					Members: []Member{{Elem: "foo", Packets: 42, Bytes: 1024}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  counters\nadd super foo packets 42 bytes 1024\n",
@@ -63,8 +63,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with timeout",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Timeout: 600},
-					Members: []Member{Member{Elem: "foo", Timeout: 300}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Timeout: 600},
+					Members: []Member{{Elem: "foo", Timeout: 300}, {Elem: "bar"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  timeout 600\nadd super foo timeout 300\nadd super bar\n",
@@ -72,8 +72,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with nomatch",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet,
-					Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar", NoMatch: new(string)}}},
+				{Name: "super", Type: SetHashNet,
+					Members: []Member{{Elem: "foo"}, {Elem: "bar", NoMatch: new(string)}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:net \nadd super foo\nadd super bar nomatch\n",
@@ -81,8 +81,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with comment",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Comment: new(string)},
-					Members: []Member{Member{Elem: "foo", Comment: "allow access to SMB share on fileserv"}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Comment: new(string)},
+					Members: []Member{{Elem: "foo", Comment: "allow access to SMB share on fileserv"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  comment\nadd super foo comment allow access to SMB share on fileserv\n",
@@ -90,8 +90,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with skb",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{SKBInfo: new(string)},
-					Members: []Member{Member{Elem: "foo", SKBMark: "0x1111/0xff00ffff", SKBPrio: "1:10", SKBQueue: "10"}}},
+				{Name: "super", Type: SetHashIP, Header: Header{SKBInfo: new(string)},
+					Members: []Member{{Elem: "foo", SKBMark: "0x1111/0xff00ffff", SKBPrio: "1:10", SKBQueue: "10"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  skbinfo\nadd super foo skbmark 0x1111/0xff00ffff skbprio 1:10 skbqueue 10\n",
@@ -99,50 +99,50 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with hashsize",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Hashsize: 1536}}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Hashsize: 1536}}}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  hashsize 1536\n",
 		},
 		{
 			name: "Render set and members with maxelem",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Maxelem: 2048}}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Maxelem: 2048}}}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  maxelem 2048\n",
 		},
 		{
 			name: "Render set and members with family",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Family: MemberFamilyInet6}}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Family: MemberFamilyInet6}}}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  family inet6\n",
 		},
 		{
 			name: "Render set and members with forceadd",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Forceadd: NoVal}}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Forceadd: NoVal}}}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  forceadd\n",
 		},
 		{
 			name: "Render set with size",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetListSet, Header: Header{Size: 8}}}},
+				{Name: "super", Type: SetListSet, Header: Header{Size: 8}}}},
 			rType:  RenderSave,
 			expect: "create super list:set  size 8\n",
 		},
 		{
 			name: "Render set and members with range",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Range: "192.168.0.0/16"}}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Range: "192.168.0.0/16"}}}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  range 192.168.0.0/16\n",
 		},
 		{
 			name: "Render set and members with range and mac",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetBitmapIPMac, Header: Header{Range: "192.168.0.0/16"},
-					Members: []Member{Member{Elem: "192.168.1/24"}}},
+				{Name: "super", Type: SetBitmapIPMac, Header: Header{Range: "192.168.0.0/16"},
+					Members: []Member{{Elem: "192.168.1/24"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super bitmap:ip,mac  range 192.168.0.0/16\nadd super 192.168.1/24\n",
@@ -150,8 +150,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with range and port",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetBitmapPort, Header: Header{Range: "0-1024"},
-					Members: []Member{Member{Elem: "80"}}},
+				{Name: "super", Type: SetBitmapPort, Header: Header{Range: "0-1024"},
+					Members: []Member{{Elem: "80"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super bitmap:port  range 0-1024\nadd super 80\n",
@@ -159,8 +159,8 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set and members with netmask",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashIP, Header: Header{Netmask: 30},
-					Members: []Member{Member{Elem: "192.168.1.0/24"}}},
+				{Name: "super", Type: SetHashIP, Header: Header{Netmask: 30},
+					Members: []Member{{Elem: "192.168.1.0/24"}}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:ip  netmask 30\nadd super 192.168.1.0/24\n",
@@ -168,7 +168,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set with header",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Header: Header{Family: "inet", Hashsize: 4}},
+				{Name: "super", Type: SetHashNet, Header: Header{Family: "inet", Hashsize: 4}},
 			}},
 			rType:  RenderSave,
 			expect: "create super hash:net  family inet hashsize 4\n",
@@ -176,7 +176,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set members for creation",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}, {Elem: "bar"}}},
 			}},
 			rType:  RenderAdd,
 			expect: "add super foo\nadd super bar\n",
@@ -184,7 +184,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render set members for deleteion",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}, {Elem: "bar"}}},
 			}},
 			rType:  RenderDelete,
 			expect: "del super foo\ndel super bar\n",
@@ -192,7 +192,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render sets for flush",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}, {Elem: "bar"}}},
 			}},
 			rType:  RenderFlush,
 			expect: "flush super\n",
@@ -200,7 +200,7 @@ func TestRender(t *testing.T) {
 		{
 			name: "Render sets for destroy",
 			sets: Ipset{Sets: []*Set{
-				&Set{Name: "super", Type: SetHashNet, Members: []Member{Member{Elem: "foo"}, Member{Elem: "bar"}}},
+				{Name: "super", Type: SetHashNet, Members: []Member{{Elem: "foo"}, {Elem: "bar"}}},
 			}},
 			rType:  RenderDestroy,
 			expect: "destroy super\n",

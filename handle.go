@@ -385,7 +385,7 @@ func (v *IpsetVersion) Check() bool {
 	return v.Major >= SupportedVersionMajor && v.Minor >= SupportedVersionMinor && v.Proto >= SupportVersionProto
 }
 
-// Test tests existence of a set or existance of memeber in a set.
+// Test tests existence of a set or existence of member in a set.
 func Test(set1 *Set, options ...OptFunc) ([]byte, error) {
 	return oneshot(set1, nil, RenderTest, options...)
 }
@@ -510,7 +510,7 @@ func LoadFromFile(filename string) (*Ipset, error) {
 
 // renderSet2args is a helper that renders sets for use with oneshot functions.
 func renderSet2args(iset renderer, rType RenderType) []string {
-	// by deafult Render produces interactive version
+	// by default Render produces interactive version
 	// of commands that have \n at the end,
 	// this removes it for compatibility with
 	// oneshot version of functions.

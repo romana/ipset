@@ -8,21 +8,21 @@
 // Similarly, this package provides bindings to configure ipset
 // programmatically.
 //
-// Because ipset is typically used in environment with large ipset configurations
-// it is not practical ro rely on simple command lines like `ipset add`
+// Because ipset is typically used in environments with large ipset configurations
+// it is not practical to rely on simple commands like `ipset add`
 // or `ipset create` since thousands of `create` calls would result
 // in thousands of forks.
 //
 // Instead, this package utilizes interactive mode provided by `ipset -`
-// to execute bulks  of create/delete/add/flush/swap calls in one session.
-// The internal object to start and control interactive session is called `Handle`
-// which implements `io.Writer` and writes directly into ipset stdin.
+// to execute bulks of create/delete/add/flush/swap calls in one session.
+// The internal object to start and control interactive session called `Handle`.
+// It implements `io.Writer` and writes directly into ipset stdin.
 //
 // However, some commands still make more sense when executed one by one
 // like `test`, for that reason this package also provides a set of functions
 // called `oneshots` (Add/Delete/etc...) which can be used when exit code is needed.
 //
-// Since ipset can export its configuration as xml this package provides structures to
+// Since ipset can export its configuration in xml format this package provides structures
 // that can be used to parse ipset xml config.
 //
 // Logging: this package is mostly silent to avoid messing with ipset stderr,

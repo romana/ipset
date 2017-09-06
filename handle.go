@@ -547,6 +547,7 @@ const (
 	ErrorNotStarted       Error = "Process not started"
 	ErrorUnexpectedNil    Error = "function does not accept nil"
 	ErrorIncompatibleSwap Error = "swaped sets must be of the same type"
+	ErrorItemExist        Error = "item already in collection"
 )
 
 // Minimal ipset version supported by this package.

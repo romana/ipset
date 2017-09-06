@@ -18,8 +18,12 @@ package ipset
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/romana/rlog"
 )
+
+// NewIpset creates new Ipset.
+func NewIpset() *Ipset { return &Ipset{} }
 
 // Ipset represents ipset configuration that consists of list of sets.
 type Ipset struct {
@@ -106,5 +110,15 @@ func (s *Ipset) SetByName(name string) *Set {
 		}
 	}
 
+	return nil
+}
+
+// AddSet adds given set to Ipset.Set collection if possible.
+func (s *Ipset) AddSet(set *Set) error {
+	check := s.SetByName(set.Name)
+	if check != nil {
+		return errors.Wrapf(ErrorItemExist, "failed to add set %s", set.Name)
+	}
+	s.Sets = append(s.Sets, set)
 	return nil
 }

@@ -18,6 +18,8 @@ package ipset
 import (
 	"strings"
 	"testing"
+
+	"github.com/pkg/errors"
 )
 
 func TestRender(t *testing.T) {
@@ -334,4 +336,80 @@ func TestNewSet(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestAddMember(t *testing.T) {
+	cases := []struct {
+		name   string
+		set    Set
+		elem   string
+		args   []MemberOpt
+		expect func(*Set, error) bool
+	}{
+		{
+			name: "add member to set",
+			set:  Set{Name: "super", Type: SetHashNet, Header: Header{}},
+			elem: "foo",
+			args: []MemberOpt{},
+			expect: func(s *Set, e error) bool {
+				return e == nil
+			},
+		},
+		{
+			name: "error when adding duplicate set",
+			set:  Set{Name: "super", Type: SetHashNet, Header: Header{}, Members: []Member{Member{Elem: "foo"}}},
+			elem: "foo",
+			args: []MemberOpt{},
+			expect: func(s *Set, e error) bool {
+				return errors.Cause(e) == ErrorItemExist
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			m, _ := NewMember(tc.elem, nil, tc.args...)
+			err := tc.set.AddMember(m)
+			if !tc.expect(&tc.set, err) {
+				t.Fatalf("Unexpected NewMember() %+v, %s", tc.set, err)
+			}
+		})
+	}
+
+}
+
+func TestAddSet(t *testing.T) {
+	cases := []struct {
+		name   string
+		sets   Ipset
+		set    Set
+		expect func(*Ipset, error) bool
+	}{
+		{
+			name: "add set",
+			sets: Ipset{},
+			set:  Set{Name: "super", Type: SetHashNet, Header: Header{}},
+			expect: func(s *Ipset, e error) bool {
+				return e == nil
+			},
+		},
+		{
+			name: "error when adding duplicate set",
+			set:  Set{Name: "super", Type: SetHashNet},
+			sets: Ipset{Sets: []*Set{&Set{Name: "super"}}},
+			expect: func(s *Ipset, e error) bool {
+				return errors.Cause(e) == ErrorItemExist
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			err := tc.sets.AddSet(&tc.set)
+			if !tc.expect(&tc.sets, err) {
+				t.Fatalf("Unexpected NewMember() %+v, %s", tc.sets, err)
+			}
+		})
+	}
+
 }

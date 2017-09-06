@@ -95,11 +95,26 @@ func (s *Set) Render(rType RenderType) string {
 	return result
 }
 
+// MemberByElement searches for member by element string.
+func (s *Set) MemberByElement(elem string) *Member {
+	for mdx, member := range s.Members {
+		if member.Elem == elem {
+			return &s.Members[mdx]
+		}
+	}
+	return nil
+}
+
 // AddMember to the set.
 func (s *Set) AddMember(m *Member) error {
 	err := validateMemberForSet(s, m)
 	if err != nil {
 		return err
+	}
+
+	check := s.MemberByElement(m.Elem)
+	if check != nil {
+		return errors.Wrapf(ErrorItemExist, "failed to add member %s to set %s", m.Elem, s.Name)
 	}
 	s.Members = append(s.Members, *m)
 

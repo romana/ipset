@@ -550,6 +550,14 @@ const (
 	ErrorItemExist        Error = "item already in collection"
 )
 
+// SuppressItemExist suppresses ErrorItemExist error.
+func SuppressItemExist(e error) error {
+	if errors.Cause(e) == ErrorItemExist {
+		return nil
+	}
+	return e
+}
+
 // Minimal ipset version supported by this package.
 const (
 	SupportedVersionMajor int = 6

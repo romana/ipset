@@ -65,8 +65,14 @@ var (
 // NewHandle takes a variable amount of option functions and returns configured *Handle.
 func NewHandle(options ...OptFunc) (*Handle, error) {
 	var err error
+
+	ipsetBinWithPath, err := exec.LookPath(defaultIpsetBin)
+	if err != nil {
+		return nil, err
+	}
+
 	h := Handle{
-		ipsetBin:          defaultIpsetBin,
+		ipsetBin:          ipsetBinWithPath,
 		isOpen:            defaultIsOpenFunc,
 		handleInteractive: true,
 	}

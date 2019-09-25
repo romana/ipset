@@ -468,7 +468,7 @@ func HandleAppendArgs(args ...string) OptFunc {
 func Load(ctx context.Context, options ...OptFunc) (*Ipset, error) {
 
 	// this will override any arguments passed down with options.
-	options = append(options, HandleWithArgs("save", "-o", "xml"))
+	options = append([]OptFunc{HandleWithArgs("save", "-o", "xml")}, options...)
 
 	handle, err := NewHandle(options...)
 	if err != nil {

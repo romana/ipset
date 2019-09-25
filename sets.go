@@ -228,6 +228,7 @@ func SetWithReferences(references int) SetOpt {
 }
 
 // SetWithTimeout is an option to create Set with timeout reference initialized.
+// -1 mean no timeout default
 func SetWithTimeout(timeout int) SetOpt {
 	return func(s *Set) error {
 		if err := validateSetHeader(s.Type, Header{Timeout: timeout}); err != nil {

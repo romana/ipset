@@ -69,6 +69,9 @@ func (h *Header) render() string {
 	}
 
 	if h.Timeout != 0 {
+		if h.Timeout < 0 {
+			h.Timeout = 0
+		}
 		result += fmt.Sprintf(" timeout %d", h.Timeout)
 	}
 

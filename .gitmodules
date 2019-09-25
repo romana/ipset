@@ -1,9 +1,0 @@
-[submodule "vendor/github.com/davecgh/go-spew"]
-	path = vendor/github.com/davecgh/go-spew
-	url = https://github.com/davecgh/go-spew
-[submodule "vendor/github.com/romana/rlog"]
-	path = vendor/github.com/romana/rlog
-	url = https://github.com/romana/rlog
-[submodule "vendor/github.com/pkg/errors"]
-	path = vendor/github.com/pkg/errors
-	url = https://github.com/pkg/errors
